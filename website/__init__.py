@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
+from flask_login import LoginManager
 
 # Database
 db = SQLAlchemy()
@@ -24,7 +25,16 @@ def create_app():
     # Create the database with the app context
     with app.app_context():
         create_database()
+    
+    
+    login_manager= LoginManager()
+    login_manager.login_view = "auth.login"
+    login_manager.init_app(app)
 
+
+    @login_manager.user_loader
+    def load_user(id):
+        return User.query.get(int(id))
     return app
 
 def create_database():

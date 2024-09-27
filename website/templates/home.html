@@ -8,7 +8,23 @@
 </head>
 <body>
     {% block content%}
-    <h1>Welcome to home page</h1>
+    <h1 align="center">Your Notes</h1>
+    <ul class="list-group list-group-flush" id="notes">
+        {% for note in user.notes %}  <!-- Ensure you're iterating over the correct list -->
+        <li class="list-group-item">{{ note.data }}
+            <button type="button" class="close" onClick="deleteNote({{ note.id }});"> <!-- Add semicolon at the end -->
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </li>
+        {% endfor %}
+    </ul>
+    <form  method="POST">
+        <textarea name="notes" id="notes" class="form-control"></textarea>
+        <br>
+        <div align="center">
+            <button type="submit" class="btn btn-primary">Add Notes</button>
+        </div>
+    </form>
     {% endblock %}
     
 </body>
